@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Icon;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -21,6 +22,8 @@ import android.view.WindowManager;
 import com.github.jinsen47.pokefaker.R;
 import com.github.jinsen47.pokefaker.app.event.MapPickEvent;
 import com.google.android.gms.maps.model.LatLng;
+import com.jaredrummler.android.processes.AndroidProcesses;
+import com.jaredrummler.android.processes.models.AndroidAppProcess;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -121,12 +124,24 @@ public class LocationService extends Service {
     }
 
     private boolean isPokemonRunning() {
-        ActivityManager am = ((ActivityManager) getSystemService(ACTIVITY_SERVICE));
-        List<ActivityManager.RunningAppProcessInfo> list = am.getRunningAppProcesses();
-        if (list != null && !list.isEmpty()) {
-            if (list.get(0).processName.equals(POKEMON_PACKAGE)) {
-                return true;
-            } else {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityManager am = ((ActivityManager) getSystemService(ACTIVITY_SERVICE));
+            List<ActivityManager.RunningAppProcessInfo> list = am.getRunningAppProcesses();
+            if (list != null && !list.isEmpty()) {
+                if (list.get(0).processName.equals(POKEMON_PACKAGE)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            List<AndroidAppProcess> list = AndroidProcesses.getRunningAppProcesses();
+            if (list != null && !list.isEmpty()) {
+                for (AndroidAppProcess p : list) {
+                    if (p.getPackageName().equals(POKEMON_PACKAGE) && p.foreground) {
+                        return true;
+                    }
+                }
                 return false;
             }
         }
