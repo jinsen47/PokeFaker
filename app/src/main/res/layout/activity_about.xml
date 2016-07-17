@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView
+        android:id="@android:id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/icon_10"
+        android:layout_marginTop="16dp"/>
+    <TextView
+        android:id="@+id/text_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@android:id/icon"
+        android:text="@string/version"/>
+    <LinearLayout
+        android:id="@+id/layout_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_version"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="vertical">
+        <TextView
+            android:text="Developers"
+            style="@style/about_title" />
+        <TextView
+            android:text="Jinsen47"
+            style="@style/about_content" />
+        <TextView
+            android:text="Github"
+            style="@style/about_title" />
+        <TextView
+            android:text="http://github.com/jinsen47/PokeFaker"
+            android:autoLink="web"
+            style="@style/about_content"/>
+        <TextView
+            android:text="P.S."
+            style="@style/about_title" />
+        <TextView
+            android:text="@string/ps_content"
+            style="@style/about_content"/>
+
+    </LinearLayout>
+</RelativeLayout>

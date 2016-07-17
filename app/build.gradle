@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+
+def loadProperty(String property) {
+    def local = new Properties()
+    local.load(new FileInputStream(new File('app/local.properties')))
+    local.getProperty(property)
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+    defaultConfig {
+        applicationId "com.github.jinsen47.pokefaker"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0alpha"
+    }
+    signingConfigs {
+        release {
+            storeFile file('../jinsen47.keystore')
+            keyPassword loadProperty('KEYPASS')
+            keyAlias loadProperty('ALIAS')
+            storePassword loadProperty('STOREPASS')
+        }
+    }
+    buildTypes {
+         release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    lintOptions {
+          checkReleaseBuilds false
+          // Or, if you prefer, you can continue to check for errors in release builds,
+          // but continue the build even when errors are found:
+          abortOnError false
+      }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.google.android.gms:play-services-maps:9.2.0'
+    provided 'de.robv.android.xposed:api:82'
+    provided 'de.robv.android.xposed:api:82:sources'
+    compile 'org.greenrobot:eventbus:3.0.0'
+}

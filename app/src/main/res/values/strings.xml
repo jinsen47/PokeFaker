@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">PokeFaker</string>
+    <string name="app_declaration">This is an test app for geeks. Irresponsible for any possible crashes or exceptions or bricks.\nI recommend you lock this app in your task manager, \'cause losing mock gps signals means giving out real ones.</string>
+    <string name="action_save">Save</string>
+    <string name="action_about">About</string>
+    <string name="toast_saved">Location saved!</string>
+    <string name="mock_failed">Go to developer options and turn allow mock location on.\n</string>
+    <string name="mock_success">Location mockable, good to go!\n</string>
+    <string name="permission_failed">Dpad needs a pop-up window permission\n</string>
+    <string name="permission_success">Pop-up window granted, good to go!\n</string>
+    <string name="jump_setting">Go to Settings</string>
+    <string name="jump_map">GO</string>
+    <string name="service_running_title">PokeFaker Running</string>
+    <string name="service_running_content">Click for setting</string>
+    <string name="action_service_start">START</string>
+    <string name="action_service_stop">STOP</string>
+    <string name="quit">Quit this app and stop service?</string>
+    <string name="version">Version: %1$s</string>
+    <string name="ps_content">If you find bugs or have suggestions and sure you will, please open an issue on Github, I\'m glad to make this app better.</string>
+</resources>
