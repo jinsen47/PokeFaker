@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string name="mock_failed">请进入开发者选项页面, 选择模拟位置应用为本App\n</string>
+</resources>

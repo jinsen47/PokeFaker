@@ -80,7 +80,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     private boolean checkMockSetting() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             AppOpsManager opsManager = (AppOpsManager) this.getSystemService(Context.APP_OPS_SERVICE);
-            return (opsManager.checkOp(AppOpsManager.OPSTR_MOCK_LOCATION, android.os.Process.myUid(), BuildConfig.APPLICATION_ID)== AppOpsManager.MODE_ALLOWED);
+            return (opsManager.checkOpNoThrow(AppOpsManager.OPSTR_MOCK_LOCATION, android.os.Process.myUid(), BuildConfig.APPLICATION_ID)== AppOpsManager.MODE_ALLOWED);
         } else {
             try {
                 int ret = Settings.Secure.getInt(getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION);
