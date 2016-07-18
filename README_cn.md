@@ -10,13 +10,14 @@
 - 如果对以上声明任何一条不同意, 请Ctrl+W(Cmd+W)离开
 
 ## DOWNLOAD
-[Fir](http://fir.im/z7vm)
+[Fir](http://fir.im/z7vm)    [Xposed](http://repo.xposed.info/module/com.github.jinsen47.pokefaker)
 
 ## HOW TO USE
 - 需要Xposed框架和Xposed框架管理器
 - 需要科学上网
-- 下载并安装应用
+- 下载并安装应用, **在Xposed框架管理器中启用PokeFaker**
 - 重启手机, 打开权限管理(安全中心等等), 在应用权限设置中允许**悬浮窗**权限
+- 打开GPS, PokemonGo会检测
 - 打开应用, 选个你喜欢的地方
 - 打开PokemonGo, 起飞~
 

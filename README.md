@@ -9,18 +9,19 @@ An Xposed plugin to play PokemonGo freely.
 - **NOT RESPONSIBLE** for any exceptions or bricked situations.
 
 ## DOWNLOAD
-[Fir](http://fir.im/z7vm)
+[Fir](http://fir.im/z7vm)    [Xposed](http://repo.xposed.info/module/com.github.jinsen47.pokefaker)
 
 ## HOW TO USE
 - You need to flash your Android phone with Xposed Framework, and install Xposed_installer.
-- Download the release apk and install it.
-- Reboot your phone and when it's done, open the **Permission Manager**(or something like that), grant the float window permission on app's setting page.
+- Download the release apk and install it, **enable it in the Xposed_installer**
+- Reboot your phone and when it's done, open the **Permission Manager**(or something like that), grant the pop-up window permission on app's setting page.
+- Turn on your GPS.
 - Open the app and select the location you want to start the game, and if no exceptions are thrown you are good to go.
 - Open PokemonGo and have fun.
 
 ## FEATURES
 - Provide a dpad(joystick like, but not) on the screen, move your character by four buttons.
-- Do not need to open GPS, battery saving.
+- Do not need to use GPS(BUT U HAVE TO OPEN IT), battery saving.
 - Provide a google map view to select location.
 - Totally legal, I dont decompile or replace any bytes in there app.
 
