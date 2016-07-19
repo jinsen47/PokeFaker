@@ -12,6 +12,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.jinsen47.pokefaker.R;
@@ -27,10 +29,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener{
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, View.OnClickListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private SupportMapFragment mMapFragment;
+    private ImageView mZoomIn;
+    private ImageView mZoomOut;
 
     private GoogleMap mMap;
     private MarkerOptions mMarkerOpts;
@@ -64,7 +68,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         mMapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));
+        mZoomIn = ((ImageView) findViewById(R.id.icon_zoom_in));
+        mZoomOut = ((ImageView) findViewById(R.id.icon_zoom_out));
+
         mMapFragment.getMapAsync(this);
+        mZoomIn.setOnClickListener(this);
+        mZoomOut.setOnClickListener(this);
 
         mSp = getSharedPreferences("location", MODE_PRIVATE);
         mQuitDialog = new AlertDialog.Builder(MainActivity.this)
@@ -172,17 +181,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMarkerOpts = new MarkerOptions().position(new LatLng(0, 0));
         mMarker = googleMap.addMarker(mMarkerOpts);
         fetchSavedLocation();
-        CameraPosition cp = new CameraPosition.Builder().target(mMarker.getPosition())
-                .zoom(15.5f)
-                .bearing(0)
-                .tilt(25)
-                .build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
+        if (!(mMarker.getPosition().latitude == 0.0 && mMarker.getPosition().longitude == 0.0)) {
+            CameraPosition cp = new CameraPosition.Builder().target(mMarker.getPosition())
+                    .zoom(15.5f)
+                    .bearing(0)
+                    .tilt(25)
+                    .build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cp));
+        }
     }
 
     @Override
     public void onMapClick(LatLng latLng) {
         mMarker.setPosition(latLng);
         EventBus.getDefault().post(new MapPickEvent(latLng));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.icon_zoom_in:
+                mMap.animateCamera(CameraUpdateFactory.zoomIn());
+                break;
+            case R.id.icon_zoom_out:
+                mMap.animateCamera(CameraUpdateFactory.zoomOut());
+                break;
+        }
     }
 }
