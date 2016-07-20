@@ -320,8 +320,7 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
                 drawArea(canvas);
                 // draw rocker
                 drawRocker(canvas);
-                // listener callback
-                listenerCallback();
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
