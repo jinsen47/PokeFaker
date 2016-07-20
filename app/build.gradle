@@ -14,7 +14,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0alpha"
+        versionName '1.0.1'
     }
     signingConfigs {
         release {
@@ -23,20 +23,24 @@ android {
             keyAlias loadProperty('ALIAS')
             storePassword loadProperty('STOREPASS')
         }
+        debug {
+        }
     }
     buildTypes {
-         release {
+        release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
     lintOptions {
-          checkReleaseBuilds false
-          // Or, if you prefer, you can continue to check for errors in release builds,
-          // but continue the build even when errors are found:
-          abortOnError false
-      }
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    productFlavors {
+    }
 }
 
 dependencies {
@@ -47,4 +51,5 @@ dependencies {
     provided 'de.robv.android.xposed:api:82:sources'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.jaredrummler:android-processes:1.0.8'
+    compile project(':library')
 }

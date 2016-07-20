@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -31,16 +32,11 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationService extends Service {
+public class LocationService extends Service  implements DirectionLayout.ServiceListener {
     private static final String TAG = LocationService.class.getSimpleName();
-    private static final int DIRECTION_UP = 1;
-    private static final int DIRECTION_DOWN = 2;
-    private static final int DIRECTION_LEFT = 3;
-    private static final int DIRECTION_RIGHT = 4;
-
     private static final long CHECK_INTERVAL = 2000;
     private static final String POKEMON_PACKAGE = "com.nianticlabs.pokemongo";
-
+    private Intent mIntent;
     private DirectionLayout mDirectionLayout;
     private DirectionLayout.onDirectionListener mDirectionListener;
     private HandlerThread mHandlerThread = new HandlerThread("dpad_service");
@@ -56,7 +52,7 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mDirectionLayout = new DirectionLayout(this);
+        mDirectionLayout = new DirectionLayout(this,this);
 
         mMockProviders.add(new MockProvider(this, LocationManager.GPS_PROVIDER));
         mMockProviders.add(new MockProvider(this, LocationManager.NETWORK_PROVIDER));
@@ -152,9 +148,9 @@ public class LocationService extends Service {
         WindowManager windowManager = ((WindowManager) getSystemService(WINDOW_SERVICE));
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
-        WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-        PixelFormat.TRANSLUCENT);
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                PixelFormat.TRANSLUCENT);
 
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -195,50 +191,19 @@ public class LocationService extends Service {
     private void setListener(DirectionLayout layout) {
         mDirectionListener = new DirectionLayout.onDirectionListener() {
             @Override
-            public void onUp() {
-                Log.d(TAG, "onUp");
-                move(mCurrentLatLng, DIRECTION_UP, 1);
-            }
-
-            @Override
-            public void onDown() {
-                Log.d(TAG, "onDown");
-                move(mCurrentLatLng, DIRECTION_DOWN, 1);
-            }
-
-            @Override
-            public void onLeft() {
-                Log.d(TAG, "onLeft");
-                move(mCurrentLatLng, DIRECTION_LEFT, 1);
-            }
-
-            @Override
-            public void onRight() {
-                Log.d(TAG, "onRight");
-                move(mCurrentLatLng, DIRECTION_RIGHT, 1);
+            public void onDirection(double agle) {
+                move(mCurrentLatLng, agle);
             }
         };
         layout.setOnDirectionLisener(mDirectionListener);
     }
 
-    private void move(LatLng ori, int direction, int times) {
-        double BASE = 0.00006;
+    private void move(LatLng ori, double agle) {
+        double BASE = 0.0000008;
         double latitude = ori.latitude;
         double longitude = ori.longitude;
-        switch (direction) {
-            case DIRECTION_UP:
-                latitude += BASE * times;
-                break;
-            case DIRECTION_DOWN:
-                latitude -= BASE * times;
-                break;
-            case DIRECTION_LEFT:
-                longitude -= BASE * times;
-                break;
-            case DIRECTION_RIGHT:
-                longitude += BASE * times;
-                break;
-        }
+        latitude += BASE*Math.sin(agle);
+        longitude += BASE*Math.cos(agle);
         mCurrentLatLng = new LatLng(latitude, longitude);
         updateLocation();
     }
@@ -246,5 +211,16 @@ public class LocationService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        mIntent = intent;
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void OnCloseService() {
+        stopService(mIntent);
     }
 }
