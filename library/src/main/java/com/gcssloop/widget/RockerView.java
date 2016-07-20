@@ -306,7 +306,7 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
                 // listener callback
                 listenerCallback();
             }
-        }, mRefreshCycle,1000);
+        }, 1000, mRefreshCycle);
 
         while (drawOk) {
             try {

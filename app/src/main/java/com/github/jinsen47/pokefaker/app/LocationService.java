@@ -199,12 +199,13 @@ public class LocationService extends Service  implements DirectionLayout.Service
     }
 
     private void move(LatLng ori, double agle) {
-        double BASE = 0.0000008;
+        double BASE = 0.00002;
         double latitude = ori.latitude;
         double longitude = ori.longitude;
         latitude += BASE*Math.sin(agle);
         longitude += BASE*Math.cos(agle);
         mCurrentLatLng = new LatLng(latitude, longitude);
+        Log.v(TAG, "move: delta " + BASE*Math.sin(agle));
         updateLocation();
     }
 

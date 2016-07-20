@@ -38,7 +38,7 @@ public class DirectionLayout extends RelativeLayout {
         mContentView = inflater.inflate(R.layout.layout_direction, this);
 
         rocker = (RockerView) mContentView.findViewById(R.id.rocker);
-        rocker.setRefreshCycle(99999);
+        rocker.setRefreshCycle(1500);
 //        ((ImageView)mContentView.findViewById(R.id.imageView)).setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -57,11 +57,11 @@ public class DirectionLayout extends RelativeLayout {
                     }
                     switch (eventType) {
                         case RockerView.EVENT_ACTION:
-                            rocker.setRefreshCycle(1500);
+//                            rocker.setRefreshCycle(1500);
                             break;
                         case RockerView.EVENT_CLOCK:
                             if(currentAngle<0){
-                                rocker.setRefreshCycle(99999);
+//                                rocker.setRefreshCycle(99999);
                             }
                             break;
                     }
