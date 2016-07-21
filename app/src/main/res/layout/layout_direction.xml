@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     xmlns:rocker="http://schemas.android.com/apk/res-auto">
 
-
     <com.gcssloop.widget.RockerView
         android:id="@+id/rocker"
         android:layout_width="wrap_content"
@@ -15,23 +14,22 @@
         rocker:rocker_radius="20dp"/>
 
     <ImageView
+        android:id="@+id/arrowMove"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:id="@+id/arrowMove"
         android:layout_gravity="center"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/arrow_move"/>
 
     <ImageView
+        android:id="@+id/move_info"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:id="@+id/move_info"
         android:layout_gravity="right"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
         android:layout_marginRight="12dp"
         android:background="@drawable/move_info"/>
-
 </FrameLayout>

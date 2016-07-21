@@ -76,7 +76,7 @@ public class LocationHolder {
         return sInstance;
     }
 
-    public void postLocation(LatLng latLng) {
+    public synchronized void postLocation(LatLng latLng) {
         if (latLng != null) {
             writeToPreference(latLng);
             mCacheLatLng = latLng;
@@ -85,7 +85,7 @@ public class LocationHolder {
     }
 
     private void notifyDataObserver() {
-//        Log.d(TAG, "posting data");
+        Log.v(TAG, "posting data:" + mCacheLatLng.toString());
         for (DataSetObserver o : mObervers) {
             o.onChanged();
         }

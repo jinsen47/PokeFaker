@@ -1,18 +1,12 @@
 package com.github.jinsen47.pokefaker.app;
 
 import android.content.Context;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.gcssloop.widget.RockerView;
 import com.github.jinsen47.pokefaker.R;
@@ -30,8 +24,6 @@ public class DirectionLayout extends RelativeLayout {
     private WindowManager windowManager;
     private double radian = 0D;
     private double zoom=1.0D;
-    private final static double ZOOMRATIO = 1.0217D;
-    private final static double MAXZOOM=4.5D;
     private float xInScreen;
     private float yInScreen;
     private boolean isMovingView;
@@ -69,15 +61,10 @@ public class DirectionLayout extends RelativeLayout {
         if (null != rocker){
             rocker.setListener(new RockerView.RockerListener() {
                 @Override
-                public void callback(int eventType, int currentAngle) {
-                    if(currentAngle>0){
-                        zoom*=ZOOMRATIO;
-                        if(zoom>MAXZOOM)
-                            zoom=MAXZOOM;
-                        radian = currentAngle* Math.PI / 180;
-                        mListener.onDirection(radian,zoom);
-                    }else{
-                        zoom = 1.0D;
+                public void callback(int eventType, int currentAngle, double power) {
+                    if (currentAngle > 0){
+                        radian = currentAngle * Math.PI / 180;
+                        mListener.onDirection(radian, power);
                     }
                     switch (eventType) {
                         case RockerView.EVENT_ACTION:
@@ -135,7 +122,7 @@ public class DirectionLayout extends RelativeLayout {
     }
 
     public interface onDirectionLayoutListener {
-        void onDirection(double radian, double zoom);
+        void onDirection(double radian, double power);
         WindowManager.LayoutParams getLayoutParams();
     }
 

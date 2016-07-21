@@ -6,26 +6,15 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
-import android.graphics.drawable.Icon;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
-import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.github.jinsen47.pokefaker.R;
 import com.github.jinsen47.pokefaker.app.event.MapPickEvent;
@@ -211,12 +200,12 @@ public class LocationService extends Service {
         layout.setDirectionLayoutListener(mDirectionListener);
     }
 
-    private void move(LatLng ori, double radian, double zoom) {
-        double BASE = 0.0000008*zoom;
+    private void move(LatLng ori, double angle, double power) {
+        double BASE = 0.00001 * power;
         double latitude = ori.latitude;
         double longitude = ori.longitude;
-        latitude += BASE*Math.sin(radian);
-        longitude += BASE*Math.cos(radian);
+        latitude += BASE * Math.sin(angle);
+        longitude += BASE * Math.cos(angle);
         mCurrentLatLng = new LatLng(latitude, longitude);
         updateLocation();
     }
