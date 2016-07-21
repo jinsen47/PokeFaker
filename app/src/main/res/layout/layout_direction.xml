@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <ImageButton
-        android:id="@+id/up"
+    android:layout_height="wrap_content"
+    xmlns:rocker="http://schemas.android.com/apk/res-auto">
+
+
+    <com.gcssloop.widget.RockerView
+        android:id="@+id/rocker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_keyboard_arrow_up_white"
-        android:layout_centerHorizontal="true" />
-    <ImageButton
-        android:id="@+id/left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_keyboard_arrow_left_white"
-        android:layout_alignParentLeft="true"
-        android:layout_marginRight="30dp"
-        android:layout_below="@+id/up" />
-    <ImageButton
-        android:id="@+id/right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_keyboard_arrow_right_white"
-        android:layout_toRightOf="@id/left"
-        android:layout_below="@+id/up" />
-    <ImageButton
-        android:id="@+id/down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_keyboard_arrow_down_white"
+        rocker:area_background="#55777777"
+        rocker:rocker_background="#77555555"
+        rocker:area_radius="60dp"
+        rocker:rocker_radius="20dp"/>
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:id="@+id/arrowMove"
+        android:layout_gravity="center"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/left"
-        />
-</RelativeLayout>
+        android:background="@drawable/arrow_move"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/move_info"
+        android:layout_gravity="right"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/move_info"/>
+
+</FrameLayout>

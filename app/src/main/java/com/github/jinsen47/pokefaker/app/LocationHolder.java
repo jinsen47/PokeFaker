@@ -85,7 +85,7 @@ public class LocationHolder {
     }
 
     private void notifyDataObserver() {
-        Log.d(TAG, "posting data");
+//        Log.d(TAG, "posting data");
         for (DataSetObserver o : mObervers) {
             o.onChanged();
         }
