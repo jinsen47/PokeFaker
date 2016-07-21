@@ -7,7 +7,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.graphics.drawable.Icon;
 import android.location.LocationManager;
 import android.os.Build;
@@ -18,7 +20,12 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.github.jinsen47.pokefaker.R;
 import com.github.jinsen47.pokefaker.app.event.MapPickEvent;
@@ -32,19 +39,20 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationService extends Service  implements DirectionLayout.ServiceListener {
+public class LocationService extends Service {
     private static final String TAG = LocationService.class.getSimpleName();
     private static final long CHECK_INTERVAL = 2000;
     private static final String POKEMON_PACKAGE = "com.nianticlabs.pokemongo";
     private Intent mIntent;
     private DirectionLayout mDirectionLayout;
-    private DirectionLayout.onDirectionListener mDirectionListener;
+    private DirectionLayout.onDirectionLayoutListener mDirectionListener;
     private HandlerThread mHandlerThread = new HandlerThread("dpad_service");
     private Handler mHandler;
-
     private LatLng mCurrentLatLng;
     private List<MockProvider> mMockProviders = new ArrayList<>();
     private boolean hasWindowAdded = false;
+    private WindowManager windowManager;
+    private WindowManager.LayoutParams wmParams=null;
 
     public LocationService() {
     }
@@ -52,7 +60,7 @@ public class LocationService extends Service  implements DirectionLayout.Service
     @Override
     public void onCreate() {
         super.onCreate();
-        mDirectionLayout = new DirectionLayout(this,this);
+        mDirectionLayout = new DirectionLayout(this);
 
         mMockProviders.add(new MockProvider(this, LocationManager.GPS_PROVIDER));
         mMockProviders.add(new MockProvider(this, LocationManager.NETWORK_PROVIDER));
@@ -143,10 +151,7 @@ public class LocationService extends Service  implements DirectionLayout.Service
         }
         return false;
     }
-
-    private void addAlertWindow() {
-        WindowManager windowManager = ((WindowManager) getSystemService(WINDOW_SERVICE));
-
+    private WindowManager.LayoutParams createLayoutParams(){
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
@@ -154,16 +159,19 @@ public class LocationService extends Service  implements DirectionLayout.Service
 
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.END | Gravity.BOTTOM;
+        lp.gravity = Gravity.START | Gravity.TOP;
         lp.y = (int) (100 * getResources().getDisplayMetrics().density);
-        lp.alpha = 0.5f;
+        return lp;
+    }
 
-        windowManager.addView(mDirectionLayout, lp);
+    private void addAlertWindow() {
+        windowManager  = ((WindowManager) getSystemService(WINDOW_SERVICE));
+        wmParams = createLayoutParams();
+        windowManager.addView(mDirectionLayout, wmParams);
     }
 
     private void removeAlertWindow() {
         WindowManager windowManager = ((WindowManager) getSystemService(WINDOW_SERVICE));
-
         windowManager.removeView(mDirectionLayout);
     }
 
@@ -189,21 +197,26 @@ public class LocationService extends Service  implements DirectionLayout.Service
     }
 
     private void setListener(DirectionLayout layout) {
-        mDirectionListener = new DirectionLayout.onDirectionListener() {
+        mDirectionListener = new DirectionLayout.onDirectionLayoutListener() {
             @Override
-            public void onDirection(double agle) {
-                move(mCurrentLatLng, agle);
+            public void onDirection(double radian, double zoom) {
+                move(mCurrentLatLng, radian, zoom);
+            }
+
+            @Override
+            public WindowManager.LayoutParams getLayoutParams() {
+                return wmParams;
             }
         };
-        layout.setOnDirectionLisener(mDirectionListener);
+        layout.setDirectionLayoutListener(mDirectionListener);
     }
 
-    private void move(LatLng ori, double agle) {
-        double BASE = 0.0000008;
+    private void move(LatLng ori, double radian, double zoom) {
+        double BASE = 0.0000008*zoom;
         double latitude = ori.latitude;
         double longitude = ori.longitude;
-        latitude += BASE*Math.sin(agle);
-        longitude += BASE*Math.cos(agle);
+        latitude += BASE*Math.sin(radian);
+        longitude += BASE*Math.cos(radian);
         mCurrentLatLng = new LatLng(latitude, longitude);
         updateLocation();
     }
@@ -219,8 +232,4 @@ public class LocationService extends Service  implements DirectionLayout.Service
         return super.onStartCommand(intent, flags, startId);
     }
 
-    @Override
-    public void OnCloseService() {
-        stopService(mIntent);
-    }
 }

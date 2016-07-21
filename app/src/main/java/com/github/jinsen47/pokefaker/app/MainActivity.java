@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         public void onChanged() {
             LocationHolder holder = LocationHolder.getInstance(MainActivity.this);
             LatLng l = holder.pollLatLng();
-            Log.d(TAG, "receive location:" + (l == null ? "null" : l.toString()));
+            //Log.d(TAG, "receive location:" + (l == null ? "null" : l.toString()));
             if (l != null && mMarker != null) {
                 mMarker.setPosition(l);
             }
