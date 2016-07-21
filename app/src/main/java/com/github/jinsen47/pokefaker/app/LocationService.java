@@ -84,7 +84,7 @@ public class LocationService extends Service {
 
         Notification notification = new Notification.Builder(this)
                 .setContentTitle(getString(R.string.service_running_title))
-                .setSmallIcon(R.mipmap.icon_10)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentText(getString(R.string.service_running_content))
                 .setAutoCancel(false)
                 .setOngoing(true)
@@ -149,8 +149,19 @@ public class LocationService extends Service {
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.START | Gravity.TOP;
-        lp.y = (int) (100 * getResources().getDisplayMetrics().density);
+        fetchWindowPosition(lp);
         return lp;
+    }
+
+    private void fetchWindowPosition(WindowManager.LayoutParams lp) {
+        SharedPreferences mSp = getSharedPreferences("default", MODE_PRIVATE);
+        int x = mSp.getInt("window_x", 0);
+        int y = mSp.getInt("window_y", 0);
+        lp.x = x;
+        lp.y = y;
+        if (y == 0) {
+            lp.y = (int) (100 * getResources().getDisplayMetrics().density);
+        }
     }
 
     private void addAlertWindow() {

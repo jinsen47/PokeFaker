@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayUseLogoEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setLogo(R.mipmap.icon_10);
+            getSupportActionBar().setLogo(R.mipmap.ic_launcher);
         }
 
         mMapFragment = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map));

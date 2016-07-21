@@ -29,7 +29,7 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayUseLogoEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setLogo(R.mipmap.icon_10);
+            getSupportActionBar().setLogo(R.mipmap.ic_launcher);
         }
 
         mTextInfo = ((TextView) findViewById(R.id.text_info));

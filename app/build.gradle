@@ -13,8 +13,8 @@ android {
         applicationId "com.github.jinsen47.pokefaker"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName '1.0.0alpha'
+        versionCode 2
+        versionName '1.0.1'
     }
     signingConfigs {
         release {

@@ -1,6 +1,7 @@
 package com.github.jinsen47.pokefaker.app;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,7 +24,6 @@ public class DirectionLayout extends RelativeLayout {
     private onDirectionLayoutListener mListener;
     private WindowManager windowManager;
     private double radian = 0D;
-    private double zoom=1.0D;
     private float xInScreen;
     private float yInScreen;
     private boolean isMovingView;
@@ -119,6 +119,15 @@ public class DirectionLayout extends RelativeLayout {
         mListener.getLayoutParams().x = (int) (xInScreen-this.getWidth()/2);
         mListener.getLayoutParams().y = (int) (yInScreen-this.getHeight()/2);
         windowManager.updateViewLayout(this, mListener.getLayoutParams());
+        saveWindowPosition(mListener.getLayoutParams().x, mListener.getLayoutParams().y);
+    }
+
+    private void saveWindowPosition(int x, int y) {
+        SharedPreferences mSp = getContext().getSharedPreferences("default", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSp.edit();
+        editor.putInt("window_x", x);
+        editor.putInt("window_y", y);
+        editor.apply();
     }
 
     public interface onDirectionLayoutListener {

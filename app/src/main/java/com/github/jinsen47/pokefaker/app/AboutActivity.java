@@ -19,7 +19,7 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setLogo(R.mipmap.icon_10);
+            getSupportActionBar().setLogo(R.mipmap.ic_launcher);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         ((TextView) findViewById(R.id.text_version)).setText(getString(R.string.version, BuildConfig.VERSION_NAME));
