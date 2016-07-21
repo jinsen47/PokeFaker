@@ -13,8 +13,11 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -23,9 +26,6 @@ import android.view.View;
 import com.gcssloop.rocker.R;
 import com.gcssloop.view.utils.DensityUtils;
 import com.gcssloop.view.utils.MathUtils;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A custom view for game or others.
@@ -47,7 +47,9 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
 
 
     private SurfaceHolder mHolder;
-    private Thread mThread;
+    private HandlerThread mViewThead;
+    private HandlerThread mHandlerThread;
+    private Handler mHandler;
     private boolean drawOk = true;
 
     private Paint mPaint;
@@ -66,6 +68,12 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
      * we get position information from this.
      */
     private Point mRockerPosition;
+    /**
+     * The Rocker power.
+     * Means distance between touched position and the center.<br/>
+     * Always between 0.0d - 1.0d.
+     */
+    private double mRockerPower;
 
 
     private int mAreaRadius = -1;
@@ -80,9 +88,12 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
     private RockerListener mListener;
     public static final int EVENT_ACTION = 1;
     public static final int EVENT_CLOCK = 2;
-    private Timer tExit = new Timer();
+//    private Timer tExit = new Timer();
     private int mRefreshCycle = 1000;
-
+    /**
+     * Indicates if the view is touched and kept holding.
+     */
+    private boolean isHeld = false;
 
 
     /*Life Cycle***********************************************************************************/
@@ -217,8 +228,28 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
     public void surfaceCreated(SurfaceHolder holder) {
         try {
             drawOk = true;
-            mThread = new Thread(this);
-            mThread.start();
+            mViewThead = new HandlerThread("RockerViewSurface");
+            mViewThead.start();
+            mHandlerThread = new HandlerThread("RockerViewListener");
+            mHandlerThread.start();
+
+            Handler viewHandler = new Handler(mViewThead.getLooper());
+            viewHandler.post(this);
+
+            mHandler = new Handler(mHandlerThread.getLooper());
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listenerCallback();
+                    Log.v("RockerView", "isHeld = " + isHeld);
+                    if(isHeld) {
+                        mRefreshCycle = 30;
+                    } else {
+                        mRefreshCycle = 1500;
+                    }
+                    mHandler.postDelayed(this, mRefreshCycle);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -231,7 +262,9 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
     public void surfaceDestroyed(SurfaceHolder holder) {
         try {
             drawOk = false;
-            mThread.destroy();
+            mHandler.removeCallbacks(null);
+            mHandlerThread.quit();
+            mViewThead.quit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -252,36 +285,43 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         try {
-            int len = MathUtils.getDistance(mAreaPosition.x, mAreaPosition.y, event.getX(), event.getY());
+            double power = MathUtils.getDistance(mAreaPosition.x, mAreaPosition.y, event.getX(), event.getY());
 
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 //如果屏幕接触点不在摇杆挥动范围内,则不处理
-                if (len > mAreaRadius) {
+                if (power > mAreaRadius) {
                     return true;
                 }
+                isHeld = true;
             }
 
             if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                if (len <= mAreaRadius) {
+                if (power <= mAreaRadius) {
                     //如果手指在摇杆活动范围内，则摇杆处于手指触摸位置
                     mRockerPosition.set((int) event.getX(), (int) event.getY());
+                    mRockerPower = power / mAreaRadius;
 
                 } else {
                     //设置摇杆位置，使其处于手指触摸方向的 摇杆活动范围边缘
                     mRockerPosition = MathUtils.getPointByCutLength(mAreaPosition,
                             new Point((int) event.getX(), (int) event.getY()), mAreaRadius);
+                    mRockerPower = 1.0d;
                 }
                 if (mListener != null) {
                     float radian = MathUtils.getRadian(mAreaPosition, new Point((int) event.getX(), (int) event.getY()));
-                    mListener.callback(EVENT_ACTION, getAngleConvert(radian));
+                    mListener.callback(EVENT_ACTION, getAngleConvert(radian), mRockerPower);
                 }
             }
             //如果手指离开屏幕，则摇杆返回初始位置
             if (event.getAction() == MotionEvent.ACTION_UP) {
+                isHeld = false;
                 mRockerPosition = new Point(mAreaPosition);
                 if (mListener != null) {
-                    mListener.callback(EVENT_ACTION, -1);
+                    mListener.callback(EVENT_ACTION, -1, 0);
                 }
+            }
+            if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                isHeld = false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -299,14 +339,6 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
         }
 
         Canvas canvas = null;
-
-        tExit.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                // listener callback
-                listenerCallback();
-            }
-        }, 1000, mRefreshCycle);
 
         while (drawOk) {
             try {
@@ -367,10 +399,10 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
     private void listenerCallback() {
         if (mListener != null) {
             if (mRockerPosition.x == mAreaPosition.x && mRockerPosition.y == mAreaPosition.y) {
-                mListener.callback(EVENT_CLOCK, -1);
+                mListener.callback(EVENT_CLOCK, -1, 0);
             } else {
                 float radian = MathUtils.getRadian(mAreaPosition, new Point(mRockerPosition.x, mRockerPosition.y));
-                mListener.callback(EVENT_CLOCK, RockerView.this.getAngleConvert(radian));
+                mListener.callback(EVENT_CLOCK, RockerView.this.getAngleConvert(radian), mRockerPower);
             }
         }
     }
@@ -468,6 +500,10 @@ public class RockerView extends SurfaceView implements Runnable, SurfaceHolder.C
          * @param eventType    The event type, EVENT_ACTION or EVENT_CLOCK
          * @param currentAngle The current angle
          */
-        void callback(int eventType, int currentAngle);
+        void callback(int eventType, int currentAngle, double power);
+    }
+
+    private static double getDistance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2.0D) + Math.pow(y1 - y2, 2.0D));
     }
 }

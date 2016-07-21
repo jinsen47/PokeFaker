@@ -6,15 +6,12 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.Icon;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -191,21 +188,20 @@ public class LocationService extends Service  implements DirectionLayout.Service
     private void setListener(DirectionLayout layout) {
         mDirectionListener = new DirectionLayout.onDirectionListener() {
             @Override
-            public void onDirection(double agle) {
-                move(mCurrentLatLng, agle);
+            public void onDirection(double angle, double power) {
+                move(mCurrentLatLng, angle, power);
             }
         };
         layout.setOnDirectionLisener(mDirectionListener);
     }
 
-    private void move(LatLng ori, double agle) {
-        double BASE = 0.00002;
+    private void move(LatLng ori, double angle, double power) {
+        double BASE = 0.00002 * power;
         double latitude = ori.latitude;
         double longitude = ori.longitude;
-        latitude += BASE*Math.sin(agle);
-        longitude += BASE*Math.cos(agle);
+        latitude += BASE * Math.sin(angle);
+        longitude += BASE * Math.cos(angle);
         mCurrentLatLng = new LatLng(latitude, longitude);
-        Log.v(TAG, "move: delta " + BASE*Math.sin(agle));
         updateLocation();
     }
 

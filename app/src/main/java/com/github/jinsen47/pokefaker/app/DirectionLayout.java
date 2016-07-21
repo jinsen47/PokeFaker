@@ -1,16 +1,10 @@
 package com.github.jinsen47.pokefaker.app;
 
 import android.content.Context;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.gcssloop.widget.RockerView;
 import com.github.jinsen47.pokefaker.R;
@@ -24,7 +18,7 @@ public class DirectionLayout extends RelativeLayout {
     private ServiceListener mSerLisrener;
     private RockerView rocker;
     private onDirectionListener mListener;
-    private double agle;
+    private double angle;
 
     public DirectionLayout(Context context, ServiceListener listener) {
         super(context);
@@ -38,22 +32,16 @@ public class DirectionLayout extends RelativeLayout {
         mContentView = inflater.inflate(R.layout.layout_direction, this);
 
         rocker = (RockerView) mContentView.findViewById(R.id.rocker);
-        rocker.setRefreshCycle(1500);
-//        ((ImageView)mContentView.findViewById(R.id.imageView)).setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(mSerLisrener!=null)
-//                    mSerLisrener.OnCloseService();
-//            }
-//        });
+//        rocker.setRefreshCycle(1500);
 
         if (null != rocker){
             rocker.setListener(new RockerView.RockerListener() {
                 @Override
-                public void callback(int eventType, int currentAngle) {
-                    if(currentAngle>0){
-                        agle = currentAngle* Math.PI / 180;
-                        mListener.onDirection(agle);
+                public void callback(int eventType, int currentAngle, double power) {
+                    Log.d("DirectionLayout", "angle: " + currentAngle + ", " + "power: " + power);
+                    if(currentAngle > 0){
+                        angle = currentAngle* Math.PI / 180;
+                        mListener.onDirection(angle, power);
                     }
                     switch (eventType) {
                         case RockerView.EVENT_ACTION:
@@ -75,7 +63,7 @@ public class DirectionLayout extends RelativeLayout {
     }
 
     public interface onDirectionListener {
-        void onDirection(double agle);
+        void onDirection(double angle, double power);
     }
 
     public interface ServiceListener{
