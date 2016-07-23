@@ -1,4 +1,4 @@
-package com.github.jinsen47.pokefaker.app;
+package com.github.jinsen47.pokefaker.app.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

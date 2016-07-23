@@ -1,4 +1,4 @@
-package com.github.jinsen47.pokefaker.app;
+package com.github.jinsen47.pokefaker.app.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,14 +9,15 @@ import android.os.Process;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.github.jinsen47.pokefaker.R;
+import com.github.jinsen47.pokefaker.app.service.LocationHolder;
+import com.github.jinsen47.pokefaker.app.service.LocationService;
+import com.github.jinsen47.pokefaker.app.util.StateCheckUtil;
 import com.github.jinsen47.pokefaker.app.event.MapPickEvent;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

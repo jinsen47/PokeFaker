@@ -18,4 +18,8 @@
     <string name="quit">退出并停止服务?</string>
     <string name="version">版本: %1$s</string>
     <string name="ps_content">如果你有什么建议(意见就就不用提了), 或者发现了什么bug(肯定有), 去Github开issue.</string>
+    <string name="need_permission_message">需要%1$s权限, 点击设置</string>
+    <string name="permission_display_window">悬浮窗</string>
+    <string name="permission_display_camera">相机</string>
+    <string name="permission_display_mock_location">模拟位置</string>
 </resources>

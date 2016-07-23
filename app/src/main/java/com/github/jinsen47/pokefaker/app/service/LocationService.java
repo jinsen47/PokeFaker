@@ -1,4 +1,4 @@
-package com.github.jinsen47.pokefaker.app;
+package com.github.jinsen47.pokefaker.app.service;
 
 import android.app.ActivityManager;
 import android.app.Notification;
@@ -17,7 +17,9 @@ import android.view.Gravity;
 import android.view.WindowManager;
 
 import com.github.jinsen47.pokefaker.R;
+import com.github.jinsen47.pokefaker.app.ui.DirectionLayout;
 import com.github.jinsen47.pokefaker.app.event.MapPickEvent;
+import com.github.jinsen47.pokefaker.app.ui.MainActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.jaredrummler.android.processes.AndroidProcesses;
 import com.jaredrummler.android.processes.models.AndroidAppProcess;

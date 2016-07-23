@@ -34,11 +34,11 @@
             android:name="xposedminversion"
             android:value="30" />
 
-        <activity android:name=".app.MainActivity"
+        <activity android:name=".app.ui.MainActivity"
             android:launchMode="singleInstance"/>
 
         <service
-            android:name=".app.LocationService"
+            android:name=".app.service.LocationService"
             android:enabled="true"
             android:exported="false" />
 
@@ -49,7 +49,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.AboutActivity"/>
+        <activity android:name=".app.ui.AboutActivity"/>
     </application>
 
 </manifest>

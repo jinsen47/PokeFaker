@@ -6,7 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.provider.Settings;
 
-import com.github.jinsen47.pokefaker.app.LocationHolder;
+import com.github.jinsen47.pokefaker.app.service.LocationHolder;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

@@ -17,4 +17,8 @@
     <string name="quit">Quit this app and stop service?</string>
     <string name="version">Version: %1$s</string>
     <string name="ps_content">If you find bugs or have suggestions and sure you will, please open an issue on Github, I\'m glad to make this app better.</string>
+    <string name="need_permission_message">%1$s permission needed. Go setting.</string>
+    <string name="permission_display_window">POPUP WINDOW</string>
+    <string name="permission_display_camera">CAMERA</string>
+    <string name="permission_display_mock_location">MOCK LOCATION</string>
 </resources>

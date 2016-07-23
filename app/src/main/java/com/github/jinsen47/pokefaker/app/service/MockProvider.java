@@ -1,4 +1,4 @@
-package com.github.jinsen47.pokefaker.app;
+package com.github.jinsen47.pokefaker.app.service;
 
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -70,6 +70,8 @@ public class MockProvider {
             }
         } catch (IllegalArgumentException e) {
             Log.e(TAG, mProvider + "has already been removed!");
+        } catch (SecurityException e) {
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -87,7 +89,11 @@ public class MockProvider {
     }
 
     private void postLocation(Location l) {
-        mLocationManager.setTestProviderLocation(mProvider, l);
+        try {
+            mLocationManager.setTestProviderLocation(mProvider, l);
+        } catch (SecurityException e) {
+            Log.e(TAG, "Mock location disabled!!!");
+        }
     }
 
 }

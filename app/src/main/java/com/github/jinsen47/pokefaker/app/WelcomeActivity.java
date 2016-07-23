@@ -7,14 +7,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.jinsen47.pokefaker.BuildConfig;
 import com.github.jinsen47.pokefaker.R;
+import com.github.jinsen47.pokefaker.app.service.LocationService;
+import com.github.jinsen47.pokefaker.app.ui.MainActivity;
+import com.github.jinsen47.pokefaker.app.util.PermissionUtil;
+import com.github.jinsen47.pokefaker.app.util.StateCheckUtil;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String TAG = WelcomeActivity.class.getSimpleName();
     private TextView mTextInfo;
     private Button mBtnStart;
 
@@ -49,6 +55,12 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         isMockable = checkMockSetting();
         isPermissionGranted = checkPermission();
+
+        boolean flag = !PermissionUtil.checkAndRequestPopupWindowPermission(this);
+        Log.e(TAG, "permission = " + flag);
+
+        flag = !PermissionUtil.checkAndRequestMockSetting(this);
+        Log.e(TAG, "mock location = " + flag);
 
         mTextInfo.setText("");
         if (!isMockable) {

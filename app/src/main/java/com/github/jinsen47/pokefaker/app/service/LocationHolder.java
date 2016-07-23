@@ -1,4 +1,4 @@
-package com.github.jinsen47.pokefaker.app;
+package com.github.jinsen47.pokefaker.app.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;

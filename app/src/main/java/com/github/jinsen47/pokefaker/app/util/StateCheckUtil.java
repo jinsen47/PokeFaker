@@ -1,4 +1,4 @@
-package com.github.jinsen47.pokefaker.app;
+package com.github.jinsen47.pokefaker.app.util;
 
 import android.app.ActivityManager;
 import android.content.Context;
