@@ -74,7 +74,7 @@ public class MockProviderFaker implements IXposedHookLoadPackage {
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         String name = ((String) param.args[1]);
                         if (name.equals(Settings.Secure.ALLOW_MOCK_LOCATION)) {
-                            Log.d(TAG, "Bingo, find its calling");
+                            Log.d(TAG, "Bingo, find its calling getInt");
                             param.setResult(0);
                         }
                     }
@@ -90,15 +90,34 @@ public class MockProviderFaker implements IXposedHookLoadPackage {
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         String name = ((String) param.args[1]);
                         if (name.equals(Settings.Secure.ALLOW_MOCK_LOCATION)) {
-                            Log.d(TAG, "Bingo, find its calling");
+                            Log.d(TAG, "Bingo, find its calling getString");
                             param.setResult("0");
                         }
                     }
                 });
+        // hook Settings.Secure.getStringForUser(ContentResolver, String, int)
+        if (Build.VERSION.SDK_INT >= 17) {
+            XposedHelpers.findAndHookMethod(
+                    Settings.Secure.class,
+                    "getStringForUser",
+                    ContentResolver.class,
+                    String.class,
+                    int.class,
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            String name = ((String) param.args[1]);
+                            if (name.equals(Settings.Secure.ALLOW_MOCK_LOCATION)) {
+                                Log.d(TAG, "Bingo, find its calling getStringForUser");
+                                param.setResult("0");
+                            }
+                        }
+                    });
+        }
     }
 
     private void preventCheckFromMockProvider(final XC_LoadPackage.LoadPackageParam lpparam) {
-        if (Build.VERSION.SDK_INT >= 18 && mPackageSet.contains(lpparam.packageName)) {
+        if (Build.VERSION.SDK_INT >= 18) {
             // hook Location.isFromMockProvider()
             XposedHelpers.findAndHookMethod(
                     Location.class,
