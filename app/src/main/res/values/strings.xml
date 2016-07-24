@@ -14,6 +14,7 @@
     <string name="service_running_content">Click for setting</string>
     <string name="action_service_start">START</string>
     <string name="action_service_stop">STOP</string>
+    <string name="invalid_input">Invalid Input</string>
     <string name="quit">Quit this app and stop service?</string>
     <string name="version">Version: %1$s</string>
     <string name="ps_content">If you find bugs or have suggestions and sure you will, please open an issue on Github, I\'m glad to make this app better.</string>
@@ -21,4 +22,8 @@
     <string name="permission_display_window">POPUP WINDOW</string>
     <string name="permission_display_camera">CAMERA</string>
     <string name="permission_display_mock_location">MOCK LOCATION</string>
+
+    <!--Search view -->
+    <string name="hint">eg:(34.00943,-118.49789)</string>
+    <string name="menu.clear">clear</string>
 </resources>

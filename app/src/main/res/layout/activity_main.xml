@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <fragment
         android:id="@+id/map"
         android:layout_width="match_parent"
@@ -23,5 +24,17 @@
         android:src="@drawable/selector_zoom_in"
         android:layout_alignLeft="@id/icon_zoom_out"
         android:layout_above="@id/icon_zoom_out"/>
+    <com.mypopsy.widget.FloatingSearchView
+        android:id="@+id/view_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="16dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:background="#90000000"
+        android:hint="@string/hint"
+        app:fsv_menu="@menu/search"
+        app:logo="@drawable/ic_google"
+        app:theme="@style/SearchViewTheme"/>
 </RelativeLayout>
 

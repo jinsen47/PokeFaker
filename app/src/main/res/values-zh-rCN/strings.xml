@@ -22,4 +22,6 @@
     <string name="permission_display_window">悬浮窗</string>
     <string name="permission_display_camera">相机</string>
     <string name="permission_display_mock_location">模拟位置</string>
+    <string name="invalid_input">无法识别的输入</string>
+    <string name="menu.clear">清空</string>
 </resources>
