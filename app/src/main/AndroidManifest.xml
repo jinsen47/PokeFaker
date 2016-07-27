@@ -35,20 +35,19 @@
             android:value="30" />
 
         <activity android:name=".app.ui.MainActivity"
-            android:launchMode="singleInstance"/>
-
-        <service
-            android:name=".app.service.LocationService"
-            android:enabled="true"
-            android:exported="false" />
-
-        <activity android:name=".app.WelcomeActivity">
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".app.service.LocationService"
+            android:enabled="true"
+            android:exported="false" />
         <activity android:name=".app.ui.AboutActivity"/>
     </application>
 

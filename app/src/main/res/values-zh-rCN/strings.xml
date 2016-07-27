@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PokeFaker</string>
-    <string name="app_declaration">本插件是为极客准备的自由软件, 对于任何的崩溃以及变砖都不负任何责任, 请使用者注意.\n个人推荐将本应用锁在任务列表中, 否则应用被杀意味着服务停止, 意味着很多不可言喻的风险.</string>
-    <string name="action_save">保存</string>
     <string name="action_about">关于</string>
-    <string name="toast_saved">已保存</string>
-    <string name="mock_failed">请进入开发者选项页面打开模拟位置\n</string>
-    <string name="mock_success">已打开模拟位置!\n</string>
-    <string name="permission_failed">屏幕方向键需要悬浮窗权限, 请打开\n</string>
-    <string name="permission_success">已获取悬浮窗权限!\n</string>
     <string name="jump_setting">去设置</string>
-    <string name="jump_map">开始</string>
     <string name="service_running_title">PokeFaker 正在运行</string>
     <string name="service_running_content">点击设置位置</string>
-    <string name="action_service_start">开始</string>
-    <string name="action_service_stop">停止</string>
     <string name="quit">退出并停止服务?</string>
     <string name="version">版本: %1$s</string>
     <string name="ps_content">如果你有什么建议(意见就就不用提了), 或者发现了什么bug(肯定有), 去Github开issue.</string>
@@ -22,6 +12,9 @@
     <string name="permission_display_window">悬浮窗</string>
     <string name="permission_display_camera">相机</string>
     <string name="permission_display_mock_location">模拟位置</string>
+
+    <!--Search view -->
     <string name="invalid_input">无法识别的输入</string>
     <string name="menu.clear">清空</string>
+        <string name="share_title">分享精灵坐标</string>
 </resources>

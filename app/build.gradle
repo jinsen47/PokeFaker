@@ -53,5 +53,6 @@ dependencies {
     compile 'com.jaredrummler:android-processes:1.0.8'
     compile 'com.github.renaudcerrato:FloatingSearchView:1.0.1'
     compile 'com.github.renaudcerrato:ToggleDrawable:1.0.1'
+    compile 'com.github.clans:fab:1.6.4'
     compile project(':library')
 }

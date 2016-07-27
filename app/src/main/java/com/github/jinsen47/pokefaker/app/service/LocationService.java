@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.WindowManager;
@@ -231,6 +232,11 @@ public class LocationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mIntent = intent;
+        Parcelable p = intent.getParcelableExtra("position");
+        if (p != null) {
+            mCurrentLatLng = ((LatLng) p);
+            updateLocation();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 

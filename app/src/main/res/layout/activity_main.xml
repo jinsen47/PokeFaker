@@ -9,21 +9,20 @@
         android:layout_height="match_parent"
         class="com.google.android.gms.maps.SupportMapFragment" />
     <ImageView
-        android:id="@+id/icon_zoom_out"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:src="@drawable/selector_zoom_out"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="48dp"/>
-    <ImageView
         android:id="@+id/icon_zoom_in"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:src="@drawable/selector_zoom_in"
-        android:layout_alignLeft="@id/icon_zoom_out"
-        android:layout_above="@id/icon_zoom_out"/>
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="96dp"/>
+    <ImageView
+        android:id="@+id/icon_zoom_out"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/selector_zoom_out"
+        android:layout_alignLeft="@+id/icon_zoom_in"
+        android:layout_below="@+id/icon_zoom_in"/>
     <com.mypopsy.widget.FloatingSearchView
         android:id="@+id/view_search"
         android:layout_width="match_parent"
@@ -36,5 +35,58 @@
         app:fsv_menu="@menu/search"
         app:logo="@drawable/ic_google"
         app:theme="@style/SearchViewTheme"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp">
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_share"
+            app:fab_size="mini"
+            app:fab_colorNormal="@android:color/white"
+            app:fab_colorPressed="@color/colorPressed"
+            app:fab_colorRipple="@color/colorRipple"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="16dp"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_size="normal"
+            android:src="@drawable/ic_send"
+            app:fab_colorNormal="@color/colorStopped"
+            app:fab_colorPressed="@color/colorPressed"
+            app:fab_colorRipple="@color/colorRipple"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="16dp"/>
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fab_menu"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:menu_icon="@drawable/ic_more_vert"
+            app:menu_fab_size="mini"
+            app:menu_colorNormal="@android:color/white"
+            app:menu_colorPressed="@color/colorPressed"
+            app:menu_colorRipple="@color/colorRipple"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_info_outline"
+                app:fab_label="@string/action_about"
+                app:fab_size="mini"
+                app:fab_colorNormal="#FF1464C0"
+                app:fab_colorPressed="@color/colorPressed"
+                app:fab_colorRipple="@color/colorRipple"/>
+            </com.github.clans.fab.FloatingActionMenu>
+    </RelativeLayout>
 </RelativeLayout>
 
